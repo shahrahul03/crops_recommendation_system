@@ -13,8 +13,8 @@ import RecommendationsComponent from "./components/Pages/recommendationsComponen
 import AdminContactPageComponent from "./components/AdminContagePageComponent/AdminContagePageComponent";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./ProtectedRoutes/protectedRoute"; // Ensure this matches the component name
-
+import ProtectedRoute from "./ProtectedRoutes/protectedRoute";
+import AdminReadmeComponent from "./components/Pages/AdminReadmeComponent";
 function App() {
   return (
     <>
@@ -45,6 +45,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              {/* {<Route
+                path="/adminreadme"
+                element={
+                  <ProtectedRoute role="admin">
+                    <AdminReadmeComponent />
+                  </ProtectedRoute>
+                }
+              /> } */}
+              {<Route path="/adminreadme" element={<AdminReadmeComponent />} />}
               <Route
                 path="/admin-contact"
                 element={

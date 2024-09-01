@@ -88,6 +88,16 @@ const Navbar = () => {
               Read Me
             </Link>
             {authState.isAuthenticated && authState.userRole === 'admin' && (
+              <Link to="/adminreadme" className="text-gray-900 text-base font-medium hover:text-green-600">
+                Add Event
+              </Link>
+            )}
+            {/* code for adminreadme extra */}
+              {/* <Link to="/adminreadme" className="text-gray-900 text-base font-medium hover:text-green-600">
+                Add Event
+              </Link> */}
+          
+            {authState.isAuthenticated && authState.userRole === 'admin' && (
               <Link to="/admin-contact" className="text-gray-900 text-base font-medium hover:text-green-600">
                 Admin Dashboard
               </Link>
@@ -190,6 +200,11 @@ const Navbar = () => {
             {authState.isAuthenticated && authState.userRole === 'admin' && (
               <Link to="/admin-contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-green-100">
                 Admin Dashboard
+              </Link>
+            )}
+            {authState.isAuthenticated && authState.userRole === 'admin' && (
+              <Link to="/adminreadme" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-green-100">
+                Add Event
               </Link>
             )}
           </div>

@@ -10,9 +10,8 @@ const userProfileRoutes = require("./profileRoute/userProfileRoutes");
 const contactRoutes = require("./Routes/contactRoutes");
 const predictionRoutes = require("./Routes/predictionRoutes");
 const { authorizeRole } = require("./middleware/authorizationMiddleware");
-
 dotenv.config();
-
+const eventRoutes = require("./Routes/readmeRoutes");
 const app = express();
 const port = 5000;
 
@@ -40,7 +39,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api", contactRoutes);
 app.use("/api/admin", contactRoutes);
 app.use("/api", predictionRoutes);
-
+app.use("/api", eventRoutes);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

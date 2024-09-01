@@ -56,6 +56,17 @@ const profileImage = multer({
   fileFilter: filter,
 });
 
+// sotrage confingurations for event
+const eventImageStorage = diskStorage({
+  destination: getDestination("event"),
+  filename,
+});
+//  multer instances for event
+const eventImage = multer({
+  storage: eventImageStorage,
+  fileFilter: filter,
+});
 module.exports = {
   profileImage,
+  eventImage,
 };
