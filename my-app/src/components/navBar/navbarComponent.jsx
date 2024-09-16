@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { BellIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
 import axios from 'axios';
@@ -13,8 +13,10 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/homePage")
   };
 
   useEffect(() => {

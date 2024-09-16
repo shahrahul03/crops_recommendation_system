@@ -30,11 +30,8 @@ const Footer = ({ closeMenu }) => {
             <h5 className="text-2xl font-semibold mb-4 text-teal-400">Company</h5>
             <ul className="space-y-2">
               <li><Link to="/about" className="hover:text-teal-300">About Us</Link></li>
-              <li><Link to="#" className="hover:text-teal-300">Careers</Link></li>
-              <li><Link to="#" className="hover:text-teal-300">Press</Link></li>
-              <li><Link to="#" className="hover:text-teal-300">Affiliate Program</Link></li>
-              <li><Link to="#" className="hover:text-teal-300">Privacy Policy</Link></li>
-              <li><Link to="#" className="hover:text-teal-300">Terms of Service</Link></li>
+              <li><Link to="/privacy" className="hover:text-teal-300">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-teal-300">Terms of Service</Link></li>
             </ul>
           </div>
           <div className="w-full md:w-1/4 mb-6 md:mb-0">

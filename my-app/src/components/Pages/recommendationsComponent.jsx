@@ -19,6 +19,7 @@ function Prediction() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validation logic
     if (
       N < 0 || N > 140 ||
       P < 5 || P > 145 ||
@@ -34,8 +35,8 @@ function Prediction() {
       return;
     }
 
+    // Backend API requests
     try {
-      // Fetch the prediction from the /predict endpoint
       const response = await fetch("http://localhost:7000/predict", {
         method: "POST",
         body: JSON.stringify({
@@ -45,13 +46,13 @@ function Prediction() {
           "Content-Type": "application/json",
         },
       });
-      
+
       const data = await response.json();
       setPrediction(data.prediction);
       setShowModal(true);
-      setExpanded(false);  // Reset expansion when new prediction is shown
+      setExpanded(false);  
+
       const token = localStorage.getItem('authToken');
-      // Save the prediction and input data to the database
       await fetch("http://localhost:5000/api/savePrediction", {
         method: "POST",
         body: JSON.stringify({
@@ -62,7 +63,7 @@ function Prediction() {
           'Authorization': ` ${token}`,
         },
       });
-      
+
     } catch (err) {
       console.error(err);
     }
@@ -77,130 +78,111 @@ function Prediction() {
   };
 
   const plantData = Products.plants.find((plant) => plant.name === prediction);
+  
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-green-100">
-        <div className="bg-white shadow-lg rounded-lg flex flex-col lg:flex-row max-w-5xl w-full">
-          {/* Input Fields Section */}
-          <div className="lg:w-1/2 p-8 flex flex-col justify-between">
-            <h2 className="text-3xl font-bold mb-6 text-green-700">Crops Recommendation System</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <label className="block">
-                <span className="text-gray-700">Nitrogen Range: 0-140 eg. 50.55</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="N:(Ratio of nitrogen content in the soil)"
-                  value={N}
-                  onChange={(e) => setN(e.target.value)}
-                />
-              </label>
+      <div className="min-h-screen flex flex-col items-center bg-green-100">
+        {/* Input Fields Section */}
+        <div className="w-full p-8 bg-white shadow-lg rounded-lg max-w-5xl">
+          <h2 className="text-3xl font-bold mb-6 text-green-700">Crops Recommendation System</h2>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <label className="block">
+              <span className="text-gray-700">Nitrogen (0-140)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 50.55"
+                value={N}
+                onChange={(e) => setN(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Phosphorous (5-145)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 53.36"
+                value={P}
+                onChange={(e) => setP(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Potassium (5-205)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 48.15"
+                value={K}
+                onChange={(e) => setK(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Temperature (8.8-43.6)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 25.62"
+                value={temperature}
+                onChange={(e) => setTemperature(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Humidity (%) (14.2-99.9)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 71.48"
+                value={humidity}
+                onChange={(e) => setHumidity(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">PH (3.5-9.9)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 6.47"
+                value={ph}
+                onChange={(e) => setPh(e.target.value)}
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Rainfall (20.2-298.5)</span>
+              <input
+                type="text"
+                className="mt-1 block w-full p-3 border border-green-300 rounded-md"
+                placeholder="E.g. 103.46"
+                value={rainfall}
+                onChange={(e) => setRainfall(e.target.value)}
+              />
+            </label>
+            <button 
+              type="submit" 
+              className="mt-4 w-full p-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors lg:col-span-2">
+              Submit
+            </button>
+          </form>
+        </div>
 
-              <label className="block">
-                <span className="text-gray-700">Phosphorous Range: 5-145 eg. 53.36</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="P:(Ratio of phosphorous content in the soil)"
-                  value={P}
-                  onChange={(e) => setP(e.target.value)}
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-gray-700">Potassium Range: 5-205 eg. 48.15</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="K:(Ratio of Potassium content in soil)"
-                  value={K}
-                  onChange={(e) => setK(e.target.value)}
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-gray-700">Temperature Range: 8.8-43.6 eg. 25.62</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="Temperature"
-                  value={temperature}
-                  onChange={(e) => setTemperature(e.target.value)}
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-gray-700">Humidity Range %: 14.2-99.9 eg. 71.48</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="Humidity"
-                  value={humidity}
-                  onChange={(e) => setHumidity(e.target.value)}
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-gray-700">PH Range: 3.5-9.9 eg. 6.47</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="Ph"
-                  value={ph}
-                  onChange={(e) => setPh(e.target.value)}
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-gray-700">Rainfall Range: 20.2-298.5 eg. 103.46</span>
-                <input
-                  type="text"
-                  className="mt-1 block w-full p-3 border border-green-300 rounded-md"
-                  placeholder="Rainfall"
-                  value={rainfall}
-                  onChange={(e) => setRainfall(e.target.value)}
-                />
-              </label>
-
-              <button 
-                type="submit" 
-                className="mt-4 w-full p-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors">
-                Submit
-              </button>
-            </form>
-          </div>
-
-          {/* Rules and Regulations Section */}
-          <div className="lg:w-1/2 h-full p-8 bg-green-100 flex flex-col justify-between">
-            <div className="text-gray-700">
-              <h2 className="text-3xl font-bold mb-4 text-green-700">Rules and Regulations</h2>
-              <ul className="list-disc list-inside space-y-2">
-                <li className="font-bold">Provide Accurate Data:</li> 
-                <span>Input precise information about your soil conditions for the best recommendations.</span>
-                <li className="font-bold">Understand the Recommendations:</li>
-                <span>Know why certain crops are recommended based on your conditions.</span>
-                <li className="font-bold">Follow Local Regulations:</li>
-                <span>Ensure recommended crops are allowed in your area.</span>
-                <li className="font-bold">Regular Monitoring:</li>
-                <span>Monitor crops and soil conditions throughout the season.</span>
-                <li className="font-bold">Combine with Expert Advice:</li>
-                <span>Use the system's recommendations alongside expert advice.</span>
-                <li className="font-bold">Practice Crop Rotation:</li>
-                <span>Follow crop rotation suggestions to maintain soil health.</span>
-                <li className="font-bold">Stay Informed:</li>
-                <span>Keep up-to-date with system updates and improvements.</span>
-                <li className="font-bold">Plan for Market Demand:</li>
-                <span>Consider market demand for recommended crops.</span>
-                <li className="font-bold">Use Sustainable Practices:</li>
-                <span>Follow sustainable farming practices.</span>
-                <li className="font-bold">Prepare for Variability:</li>
-                <span>Have backup plans for unexpected environmental changes.</span>
-              </ul>
-            </div>
-          </div>
+        {/* Enhanced Rules and Regulations Section */}
+        <div className="w-full mt-8 p-8 bg-white shadow-lg rounded-lg max-w-5xl">
+          <h2 className="text-3xl font-bold mb-6 text-green-700">Rules and Regulations</h2>
+          <ul className="list-disc list-inside space-y-4 text-gray-700 text-lg">
+            <li><strong>Provide Accurate Data:</strong> Enter precise information about your soil conditions for the best recommendations.</li>
+            <li><strong>Understand Recommendations:</strong> Learn why certain crops are suggested based on your inputs.</li>
+            <li><strong>Local Compliance:</strong> Ensure the recommended crops are permissible in your area.</li>
+            <li><strong>Regular Monitoring:</strong> Continuously monitor the crops and soil conditions during the growing season.</li>
+            <li><strong>Expert Advice:</strong> Combine the recommendations with professional agricultural advice for optimal results.</li>
+            <li><strong>Crop Rotation:</strong> Follow the suggested crop rotation plans to maintain soil health and fertility.</li>
+            <li><strong>Stay Informed:</strong> Keep track of updates in crop recommendation techniques.</li>
+            <li><strong>Market Demand:</strong> Consider the market demand for the recommended crops before planting.</li>
+            <li><strong>Sustainability:</strong> Adopt sustainable farming methods as part of your agricultural practices.</li>
+            <li><strong>Plan for Variability:</strong> Be prepared for environmental fluctuations and have backup plans in place.</li>
+          </ul>
         </div>
       </div>
+
 
       {/* Modal for Description */}
       {showModal && (

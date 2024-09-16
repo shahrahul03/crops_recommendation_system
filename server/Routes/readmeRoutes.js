@@ -11,7 +11,7 @@ router.post(
 );
 
 // Get all entries
-router.get("/", adminReadmeController.getAdminReadmeEntries);
+router.get("/event", adminReadmeController.getAdminReadmeEntries);
 
 // Get a single entry by ID
 router.get("/:id", adminReadmeController.getAdminReadmeById);

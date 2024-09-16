@@ -15,6 +15,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./ProtectedRoutes/protectedRoute";
 import AdminReadmeComponent from "./components/Pages/AdminReadmeComponent";
+import PrivacyPolicy from "./components/TermsAndConditionComponent/privacy";
+import TermsAndConditions from "./components/TermsAndConditionComponent/TermsComponent";
 function App() {
   return (
     <>
@@ -29,6 +31,8 @@ function App() {
               <Route path="/contact" element={<ContactUsComponent />} />
               <Route path="/readMe" element={<ReadMeComponent />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsAndConditions />} />
               <Route
                 path="/profile"
                 element={

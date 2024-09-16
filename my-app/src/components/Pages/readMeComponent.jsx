@@ -147,17 +147,85 @@
 
 // export default ReadMeComponent;
 
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import logo from "../../img/himg1.png";
+
+// export default function AdminReadmeComponent() {
+//   const [data, setData] = useState({ title: "", description: "" });
+
+//   useEffect(() => {
+//     // Fetch data from the database or API
+//     axios
+//       .get("/api/adminReadme") // Replace with your actual API endpoint
+//       .then((response) => {
+//         setData(response.data);
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching data:", error);
+//       });
+//   }, []);
+
+//   return (
+//     <div className="flex flex-col items-center justify-center p-5">
+//       {/* Full-width Header */}
+//       <div className="w-full text-center border border-solid rounded-2xl border-green-600 m-3 p-5">
+//         <header className="mb-8 w-full">
+//           <h1 className="italic text-3xl sm:text-4xl lg:text-5xl font-bold text-green-800 mb-4 w-full">
+//             {data.title ||
+//               "Exploring Agriculture: From Tradition to Technology"}
+//           </h1>
+//           <p className="text-base sm:text-lg text-gray-600">
+//             {data.description ||
+//               "Discover the pivotal role of modern technologies in agriculture, including crop recommendation systems, and explore the evolution and current trends in the field."}
+//           </p>
+//         </header>
+//       </div>
+
+//       {/* Content Container */}
+//       <div className="bg-white rounded-lg shadow-xl transition-opacity max-w-2xl w-full p-5">
+//         {/* Responsive Image Container */}
+//         <div className="w-full rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+//           <img
+//             className="w-full h-auto object-contain rounded-xl"
+//             src={logo}
+//             alt="AgroImage"
+//           />
+//         </div>
+
+//         {/* Description Section */}
+//         <div className="bg-blue-100 w-full rounded-3xl p-5 mb-5">
+//           <h3 className="font-bold text-2xl text-center text-green-900 mb-3">
+//             Description
+//           </h3>
+//           <p className="font-sans text-green-800 text-center">
+//             {data.description ||
+//               "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque quia, omnis deserunt rerum iste, unde, tenetur explicabo quod dolor eos a eligendi numquam architecto sequi placeat perferendis aliquam laborum modi?"}
+//           </p>
+//         </div>
+
+//         {/* Read More Button Centered */}
+//         <div className="flex justify-center">
+//           <button className="p-3 w-36 bg-green-500 text-white hover:bg-green-700 rounded-2xl cursor-pointer">
+//             Read More!
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import logo from "../../img/himg1.png";
 
 export default function AdminReadmeComponent() {
-  const [data, setData] = useState({ title: "", description: "" });
+  const [data, setData] = useState([]); // Initialize as an array to handle multiple entries
+  const [selectedEntry, setSelectedEntry] = useState(null); // State to hold the currently selected entry for the modal
 
   useEffect(() => {
     // Fetch data from the database or API
     axios
-      .get("/api/adminReadme") // Replace with your actual API endpoint
+      .get("http://localhost:5000/api/event") // Ensure this endpoint matches your backend route
       .then((response) => {
         setData(response.data);
       })
@@ -166,51 +234,90 @@ export default function AdminReadmeComponent() {
       });
   }, []);
 
+  // Function to handle opening the modal
+  const handleReadMore = (entry) => {
+    setSelectedEntry(entry);
+  };
+
+  // Function to handle closing the modal
+  const closeModal = () => {
+    setSelectedEntry(null);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center p-5">
-      {/* Full-width Header */}
+    <div className="flex flex-col items-center justify-center p-5 w-full">
+      {/* Full-width Header with your specified content */}
       <div className="w-full text-center border border-solid rounded-2xl border-green-600 m-3 p-5">
         <header className="mb-8 w-full">
           <h1 className="italic text-3xl sm:text-4xl lg:text-5xl font-bold text-green-800 mb-4 w-full">
-            {data.title ||
-              "Exploring Agriculture: From Tradition to Technology"}
+            Exploring Agriculture: From Tradition to Technology
           </h1>
           <p className="text-base sm:text-lg text-gray-600">
-            {data.description ||
-              "Discover the pivotal role of modern technologies in agriculture, including crop recommendation systems, and explore the evolution and current trends in the field."}
+            Discover the pivotal role of modern technologies in agriculture, including crop recommendation systems, and explore the evolution and current trends in the field.
           </p>
         </header>
       </div>
 
-      {/* Content Container */}
-      <div className="bg-white rounded-lg shadow-xl transition-opacity max-w-2xl w-full p-5">
-        {/* Responsive Image Container */}
-        <div className="w-full rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-          <img
-            className="w-full h-auto object-contain rounded-xl"
-            src={logo}
-            alt="AgroImage"
-          />
-        </div>
+      {/* Iterate over data to display each entry */}
+      {data.map((entry) => (
+        <div
+          key={entry._id}
+          className="w-full text-center border border-solid rounded-2xl border-green-600 mb-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+        >
+          <header className="mb-8 w-full p-5">
+            <h1 className="italic text-2xl sm:text-3xl lg:text-4xl font-bold text-green-800 mb-4">
+              {entry.title || "Exploring Agriculture: From Tradition to Technology"}
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600">
+              {entry.description.slice(0, 100) + "..."} {/* Display a truncated version */}
+            </p>
+          </header>
 
-        {/* Description Section */}
-        <div className="bg-blue-100 w-full rounded-3xl p-5 mb-5">
-          <h3 className="font-bold text-2xl text-center text-green-900 mb-3">
-            Description
-          </h3>
-          <p className="font-sans text-green-800 text-center">
-            {data.description ||
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque quia, omnis deserunt rerum iste, unde, tenetur explicabo quod dolor eos a eligendi numquam architecto sequi placeat perferendis aliquam laborum modi?"}
-          </p>
-        </div>
+          <div className="bg-white rounded-lg shadow-xl transition-opacity w-full p-5">
+            {/* Image Container with Aspect Ratio and Responsive Height */}
+            <div className="relative w-full h-0 pb-[56.25%] sm:pb-[40%] lg:pb-[30%] overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+              <img
+                className="absolute top-0 left-0 w-full h-full object-cover object-center transition-transform duration-300 ease-in-out hover:scale-105"
+                src={entry.eventImage || "/path/to/default/image.png"}
+                alt="AgroImage"
+              />
+            </div>
 
-        {/* Read More Button Centered */}
-        <div className="flex justify-center">
-          <button className="p-3 w-36 bg-green-500 text-white hover:bg-green-700 rounded-2xl cursor-pointer">
-            Read More!
-          </button>
+            <div className="flex justify-center mt-4">
+              <button
+                className="p-3 w-36 bg-green-500 text-white hover:bg-green-700 rounded-2xl cursor-pointer"
+                onClick={() => handleReadMore(entry)}
+              >
+                Read More!
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
+
+      {/* Modal for displaying selected entry details */}
+      {selectedEntry && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-8 max-w-3xl w-full relative">
+            {/* Close button */}
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <h2 className="text-3xl font-bold text-green-800 mb-4">
+              {selectedEntry.title}
+            </h2>
+            <img
+              className="w-full h-auto object-cover rounded-xl mb-4 transition-transform duration-300 ease-in-out hover:scale-105"
+              src={selectedEntry.eventImage}
+              alt="Detailed AgroImage"
+            />
+            <p className="text-gray-600 text-lg mb-4">{selectedEntry.description}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
