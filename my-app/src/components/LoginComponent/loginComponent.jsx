@@ -303,7 +303,8 @@ const Login = () => {
                     onClick={() => setIsForgotPassword(true)}
                     className="ml-4 text-green-500 hover:underline"
                   >
-                    Forgot password?
+                  {/* forget password button  */}
+                    {/* Forgot password? */} 
                   </button>
                 )}
               </div>
