@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import Footer from '../FooterComponent/fotterComponent';
 import Products from "../Products/Products.json";
@@ -13,6 +15,7 @@ function Prediction() {
   const [ph, setPh] = useState("");
   const [rainfall, setRainfall] = useState("");
   const [prediction, setPrediction] = useState("");
+  const [topCrops, setTopCrops] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -49,6 +52,7 @@ function Prediction() {
 
       const data = await response.json();
       setPrediction(data.prediction);
+      setTopCrops(data.top_3); // Store the top-3 crops
       setShowModal(true);
       setExpanded(false);  
 
@@ -78,7 +82,6 @@ function Prediction() {
   };
 
   const plantData = Products.plants.find((plant) => plant.name === prediction);
-  
 
   return (
     <>
@@ -183,7 +186,6 @@ function Prediction() {
         </div>
       </div>
 
-
       {/* Modal for Description */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
@@ -224,6 +226,20 @@ function Prediction() {
                 </button>
               </div>
             )}
+            {/* Display top-3 predicted crops */}
+            <div className="mt-6 text-center">
+  <h3 className="text-xl text-green-700 font-bold mb-4">Additional Crop Suggestions:</h3>
+  <ul className="list-disc inline-block text-left space-y-3 text-gray-800 font-semibold text-sm">
+    {topCrops.map((crop, index) => (
+      <li key={index} className="flex items-center justify-center">
+        <span className="w-4 h-4 mr-3 text-green-600">&#8226;</span>
+        <span className="text-green-800">{crop.crop}</span>: 
+        <span className="ml-2 text-black font-medium">{crop.probability}% probability</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
           </div>
         </div>
       )}
@@ -237,3 +253,5 @@ function Prediction() {
 }
 
 export default Prediction;
+
+

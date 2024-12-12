@@ -94,10 +94,7 @@ const Navbar = () => {
                 Add Event
               </Link>
             )}
-            {/* code for adminreadme extra */}
-              {/* <Link to="/adminreadme" className="text-gray-900 text-base font-medium hover:text-green-600">
-                Add Event
-              </Link> */}
+           
           
             {authState.isAuthenticated && authState.userRole === 'admin' && (
               <Link to="/admin-contact" className="text-gray-900 text-base font-medium hover:text-green-600">

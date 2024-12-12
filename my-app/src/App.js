@@ -49,14 +49,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* {<Route
-                path="/adminreadme"
-                element={
-                  <ProtectedRoute role="admin">
-                    <AdminReadmeComponent />
-                  </ProtectedRoute>
-                }
-              /> } */}
+
               {<Route path="/adminreadme" element={<AdminReadmeComponent />} />}
               <Route
                 path="/admin-contact"

@@ -40,6 +40,7 @@ app.use("/api", contactRoutes);
 app.use("/api/admin", contactRoutes);
 app.use("/api", predictionRoutes);
 app.use("/api", eventRoutes);
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
